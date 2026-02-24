@@ -6,15 +6,15 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    // Головна сторінка
+    // Головна сторінка (тепер підключає файл welcome.blade.php)
     public function index()
     {
-        return "<h1>Вітаємо у магазині «Автозапчастини»!</h1><p>Тут ви знайдете все для вашого авто.</p>";
+        return view('welcome');
     }
 
-    // Сторінка про проєкт
+    // Сторінка про проєкт (тепер підключає файл about.blade.php)
     public function about()
     {
-        return "<h1>Про нас</h1><p>Курсова робота: Система обліку автозапчастин. Студент: Глушко Данило.</p>";
+        return view('about');
     }
 }

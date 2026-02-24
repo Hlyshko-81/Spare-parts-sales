@@ -14,30 +14,41 @@ class PartController extends Controller
         4 => ['id' => 4, 'name' => 'Гальмівні колодки', 'price' => 450.00, 'car' => 'Honda Accord'],
     ];
 
-    // Виведення списку всіх запчастин
+    // Виведення списку всіх запчастин через Blade-шаблон
     public function index()
     {
-        $output = "<h1>Каталог запчастин</h1><ul>";
-        foreach ($this->parts as $part) {
-            $output .= "<li><a href='/parts/{$part['id']}'>{$part['name']}</a> - {$part['price']} грн.</li>";
-        }
-        $output .= "</ul>";
-        
-        return $output;
+        // Передаємо масив $parts у шаблон resources/views/parts/index.blade.php
+        return view('parts.index', ['parts' => $this->parts]);
     }
 
-    // Виведення однієї запчастини за ID
+    // Виведення однієї запчастини за ID через Blade-шаблон
     public function show($id)
     {
         if (isset($this->parts[$id])) {
             $part = $this->parts[$id];
-            return "<h1>Детальна інформація</h1>
-                    <p><strong>Назва:</strong> {$part['name']}</p>
-                    <p><strong>Автомобіль:</strong> {$part['car']}</p>
-                    <p><strong>Ціна:</strong> {$part['price']} грн.</p>
-                    <a href='/parts'>Повернутися до каталогу</a>";
+            
+            // Передаємо масив з конкретною деталлю у шаблон resources/views/parts/show.blade.php
+            return view('parts.show', ['part' => $part]);
         } else {
             abort(404, 'Запчастину не знайдено');
         }
+    }
+    // Відображення форми замовлення
+    public function checkout($id)
+    {
+        if (isset($this->parts[$id])) {
+            return view('parts.checkout', ['part' => $this->parts[$id]]);
+        } else {
+            abort(404, 'Запчастину не знайдено');
+        }
+    }
+
+    // Обробка даних форми
+    public function processCheckout(Request $request, $id)
+    {
+        // Оскільки у нас поки немає реальної бази даних, ми просто симулюємо успішне замовлення
+        // Повертаємо користувача на сторінку каталогу з повідомленням про успіх
+        return redirect()->route('parts.index')
+                         ->with('success', 'Дякуємо! Ваше замовлення успішно оформлено. Наш менеджер скоро зв\'яжеться з вами.');
     }
 }

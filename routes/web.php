@@ -15,3 +15,8 @@ Route::get('/parts', [PartController::class, 'index'])->name('parts.index');
 
 // Сторінка конкретної запчастини (по ID)
 Route::get('/parts/{id}', [PartController::class, 'show'])->name('parts.show');
+// Сторінка оформлення замовлення
+Route::get('/parts/{id}/checkout', [PartController::class, 'checkout'])->name('parts.checkout');
+
+// Обробка відправленої форми замовлення
+Route::post('/parts/{id}/checkout', [PartController::class, 'processCheckout'])->name('parts.processCheckout');
