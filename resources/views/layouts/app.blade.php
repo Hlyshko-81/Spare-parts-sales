@@ -16,6 +16,10 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('parts.index') }}">Каталог запчастин</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">Про нас</a></li>
                 </ul>
+                
+                <div class="d-flex">
+                    <a href="{{ route('admin.parts.index') }}" class="btn btn-warning btn-sm">⚙️ Адмін-панель</a>
+                </div>
             </div>
         </div>
     </nav>
