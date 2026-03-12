@@ -5,6 +5,7 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Управління запчастинами (Адмінка)</h2>
+        <a href="{{ route('admin.parts.create') }}" class="btn btn-success">+ Додати запчастину</a>
     </div>
 
     @if(session('success'))
@@ -47,7 +48,7 @@
                         <tr>
                             <td colspan="5" class="text-center py-4 text-muted">У базі даних поки немає запчастин.</td>
                         </tr>
-                    @endempty
+                    @endforelse
                 </tbody>
             </table>
         </div>
