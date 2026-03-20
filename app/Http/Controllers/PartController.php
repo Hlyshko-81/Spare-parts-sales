@@ -1,69 +1,39 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Part;
 use Illuminate\Http\Request;
 
 class PartController extends Controller
 {
-    // 1. Перегляд списку елементів (Index)
+    // Відображення каталогу для звичайних покупців
     public function index()
     {
-        $parts = Part::all(); // Отримуємо всі запчастини з бази даних
-        return view('admin.parts.index', compact('parts'));
+        $parts = Part::all();
+        // Зверніть увагу: тут 'parts.index', а НЕ 'admin.parts.index'
+        return view('parts.index', compact('parts')); 
     }
 
-    // ==========================================
-    // НОВЕ ЗАВДАННЯ: ФОРМИ ТА ВАЛІДАЦІЯ
-    // ==========================================
-
-    // 2. Показати форму для створення нової запчастини (Create)
-    public function create()
+    // Перегляд однієї деталі
+    public function show($id)
     {
-        return view('admin.parts.create');
+        $part = Part::findOrFail($id);
+        return view('parts.show', compact('part'));
     }
 
-    // 3. Перевірити дані та зберегти в базу (Store)
-    public function store(Request $request)
+    // Сторінка оформлення замовлення
+    public function checkout($id)
     {
-        // Валідація (Перевірка даних)
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',               // Обов'язкове, текст, макс 255 символів
-            'car' => 'required|string|max:255',                // Обов'язкове, текст
-            'price' => 'required|numeric|gt:0',                // Обов'язкове, число, більше нуля
-        ], [
-            // Власні повідомлення про помилки українською
-            'name.required' => 'Поле "Назва деталі" є обов\'язковим.',
-            'car.required' => 'Вкажіть сумісність з автомобілем.',
-            'price.required' => 'Вкажіть ціну товару.',
-            'price.numeric' => 'Ціна має бути числом.',
-            'price.gt' => 'Ціна повинна бути більшою за нуль.',
-        ]);
-
-        // Збереження в базу
-        Part::create($validatedData);
-
-        // Flash-повідомлення та перенаправлення до таблиці
-        return redirect()->route('admin.parts.index')
-                         ->with('success', 'Нову запчастину успішно додано до каталогу!');
+        $part = Part::findOrFail($id);
+        return view('parts.checkout', compact('part'));
     }
 
-    // ==========================================
-
-    // 4. Перегляд деталей елементу (Show)
-    public function show(Part $part)
+    // Обробка замовлення
+    public function processCheckout(Request $request, $id)
     {
-        return view('admin.parts.show', compact('part'));
-    }
-
-    // 5. Видалення елементу (Destroy)
-    public function destroy(Part $part)
-    {
-        $part->delete(); 
-        
-        return redirect()->route('admin.parts.index')
-                         ->with('success', 'Запчастину успішно видалено!');
+        // Поки що просто імітуємо успішне замовлення і повертаємо в каталог
+        return redirect()->route('parts.index')
+                         ->with('success', 'Дякуємо! Ваше замовлення успішно оформлено.');
     }
 }

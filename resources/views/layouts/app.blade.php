@@ -17,9 +17,29 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">Про нас</a></li>
                 </ul>
                 
-                <div class="d-flex">
-                    <a href="{{ route('admin.parts.index') }}" class="btn btn-warning btn-sm">⚙️ Адмін-панель</a>
-                </div>
+                <ul class="navbar-nav ms-auto align-items-center">
+                    
+                    @guest
+                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Увійти</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Реєстрація</a></li>
+                    @endguest
+
+                    @auth
+                        <li class="nav-item me-3">
+                            <span class="text-light">👤 Привіт, {{ Auth::user()->name }}!</span>
+                        </li>
+                        <li class="nav-item me-2">
+                            <a href="{{ route('admin.parts.index') }}" class="btn btn-warning btn-sm">⚙️ Адмін-панель</a>
+                        </li>
+                        <li class="nav-item">
+                            <form method="POST" action="{{ route('logout') }}" class="m-0">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-light btn-sm">Вихід</button>
+                            </form>
+                        </li>
+                    @endauth
+                    
+                </ul>
             </div>
         </div>
     </nav>

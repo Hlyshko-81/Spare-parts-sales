@@ -3,23 +3,23 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
+// Додаємо класи для роботи з Gate та користувачем
+use Illuminate\Support\Facades\Gate;
+use App\Models\User;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        Schema::defaultStringLength(191);
+        // Створюємо правило доступу з назвою 'admin'
+        Gate::define('admin', function (User $user) {
+            // ТУТ ВПИШІТЬ EMAIL ВАШОГО АКАУНТУ (в лапках)
+            return $user->email === 'dg0984381554@gmail.com'; 
+        });
     }
 }
